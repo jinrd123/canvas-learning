@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style>
+			#demo {
+				/* width: 1200px;
+				height: 600px; */
+				/* 一般只用canvas的属性设置宽高而不用样式 因为js绘图时 坐标都是基于canvas的属性值指定的宽高进行绘制 绘制完成后 再用css进行拉伸操作 这样可能导致呈现的画面和实际绘制的不相符 */
+			}
+		</style>
+	</head>
+	<body>
+		<canvas id="demo" width="600px" height="600px">
+			ie9以上才支持canvas 
+			你的浏览器不支持canvas，请升级浏览器
+		</canvas>
+		<script type="text/javascript">
+			
+			//第一步：拿到canvas的标签
+			var canvas = document.getElementById("demo");
+			//js设置canvas宽高属性
+			canvas.width = 600;
+			canvas.height = 600;//错误：canvas.style.height = 1200;（又成样式设置宽高了）
+			canvas.style.border = '1px solid red';
+			
+			//第二步：拿到canvas的上下文 所谓上下文就好比画板的工具栏（可以选择画笔、橡皮、移动画笔等） 而canvas就是画板
+			var ctx = canvas.getContext('2d');//三维图画：'webgl'
+			
+			//第三步：绘制
+			//moveTo(x0,y0);第一个参数是x点的坐标 第二个参数是y点坐标
+			ctx.moveTo(100,100);//把画笔移动到100，100
+			ctx.lineTo(200,100);//从画笔的位置 画一条直线到200，100
+			ctx.lineTo(100,200);//从当前位置，再画一条直线到100，200
+			
+			// ctx.lineTo(100,100);
+			ctx.closePath();//闭合路径
+			
+			//设置线宽 单位是像素
+			ctx.lineWidth = 4;
+			//设置描边的样式
+			ctx.strokeStyle = 'rgba(100, 30, 9, 0.5)';//修改线条颜色 rgb() rgba() red #888
+			ctx.stroke();//stroke：描边 相当于把上面的草稿进行正式描绘
+			
+			//设置填充样式
+			ctx.fillStyle = 'green';
+			//进行填充 填充后边线宽度为2像素 ctx.lineWidth = 4; 线的组成是线的两边各2像素宽 填充之后会把内侧的2像素覆盖
+			ctx.fill();
+		</script>
+	</body>
+</html>
