@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="container">
+			<canvas id="cavsElem">
+				你的浏览器不支持canvas，请升级浏览器
+			</canvas>
+		</div>
+		<script>
+			/*所谓基于状态的绘图就是说
+				通过canvas上下文设置的样式会作用于当前状态，一开始默认开启了一个状态 
+				在每个状态中 会把所有上下文的样式设置按顺序提前到状态的首部 后面的设置会覆盖前面的设置
+				上下文调用beginPath函数开启一个新的状态
+				新状态的上下文样式会继承上一个状态的上下文样式
+			*/
+			(function() {
+				var canvas = document.querySelector('#cavsElem');
+				var ctx = canvas.getContext("2d");
+				
+				canvas.width = 600;
+				canvas.height = 600;
+				canvas.style.border = "1px solid #000";
+				
+				ctx.lineWidth = 20;
+				
+				//第一条线
+				ctx.beginPath();//没有必要，因为开始默认就有一个状态 但推荐写上
+				/*
+					其实总的来看这是第二个状态 我们的lineWidth也是20px 这是继承了第一个状态的lineWith = 20
+				*/
+				ctx.moveTo(100, 100);
+				ctx.lineTo(300, 100);
+				ctx.stroke();
+				
+				//第二条线
+				ctx.beginPath();//开启新状态的绘图
+				/*
+					如果这里不开启新状态，那么第一条线和第二条线都会是绿色
+					因为第一条线和第二条线同属于一个状态 ctx.strokeStyle = 'green';样式被提前之后会覆盖默认的黑色
+				*/
+				ctx.strokeStyle = 'green';
+				ctx.moveTo(100, 200);
+				ctx.lineTo(300, 200);
+				ctx.stroke();
+				
+				//第三条线
+				ctx.beginPath();//继承了上面的strokeStyle = 'green';以及lineWidth = 20;
+				ctx.moveTo(100, 300);
+				ctx.lineTo(300, 300);
+				ctx.stroke();
+			}())
+		</script>
+	</body>
+</html>
