@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="container">
+			<canvas id="cavsElem">
+				你的浏览器不支持canvas，请升级浏览器
+			</canvas>
+		</div>
+		<script>
+			/*
+				语法：ctx.arc(x, y, r, sAngle, eAngle, counterclockwise)
+					x,y：圆心坐标
+					r：半径
+					sAngle & eAngle：圆心坐标系中起始点的弧度 和 结束点的弧度
+					counterclockwise：是否逆时针绘制 默认是false
+				圆心角度坐标系： canvas的x轴方向为0弧度 y轴方向为0.5pai
+			*/
+			(function() {
+				var canvas = document.querySelector('#cavsElem');
+				var ctx = canvas.getContext("2d");
+				
+				canvas.width = 600;
+				canvas.height = 600;
+				canvas.style.border = "1px solid #000";
+				
+				/*
+				
+				//绘制一条 0 到 30 度的弧
+				ctx.arc(300, 300, 100, 0*Math.PI/180, 30*Math.PI/180);
+				ctx.stroke();
+				
+				//绘制一个扇形
+				ctx.moveTo(100, 100);
+				ctx.arc(100, 100, 100, 0*Math.PI/180, 30*Math.PI/180);
+				ctx.closePath();
+				ctx.stroke();
+				
+				//绘制一个扇形 逆时针绘制
+				ctx.moveTo(400, 400);
+				ctx.arc(400, 400, 100, 0*Math.PI/180, 30*Math.PI/180, true);
+				ctx.closePath();
+				ctx.stroke();
+				
+				*/
+			   
+				//根据数据绘制饼状图
+			   let data = [{
+				   value: 0.2,
+				   color: "red",
+				   title: "应届生",
+			   },{
+				   value: 0.3,
+				   color: "blue",
+				   title: "社会招生",
+			   },{
+				   value: 0.4,
+				   color: "green",
+				   title: "老学员推荐",
+			   },{
+				   value: 0.1,
+				   color: "#ccc",
+				   title: "公开课",
+			   }];
+			   
+			   var tempAngle = -90;//从-90度依次绘制每个扇区
+			   var x0 = 400, y0 = 400;
+			   var radius = 100;
+			   for(let i = 0;i < data.length; i ++) {
+				   ctx.beginPath();
+				   ctx.moveTo(x0, y0);
+				   //计算data[i]对应扇形的角度
+				   let angle = data[i].value*360;
+				   //绘制
+				   ctx.arc(x0, y0, radius, tempAngle/180*Math.PI, (tempAngle+angle)/180*Math.PI);
+				   ctx.closePath();
+				   ctx.fillStyle = data[i].color;
+				   ctx.fill();
+				   ctx.stroke();
+				   //更新下一个扇区开始绘制的角度
+				   tempAngle += angle;
+			   }
+			}())
+		</script>
+	</body>
+</html>
