@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="container">
+			<canvas id="cavsElem">
+				你的浏览器不支持canvas，请升级浏览器
+			</canvas>
+		</div>
+		<script>
+			/*
+				动画的实现思路就是我们不停的绘制图片再清除画布重新绘制，然后不同的图片快速切换达到动画的效果
+			*/
+			(function() {
+				var canvas = document.querySelector('#cavsElem');
+				var ctx = canvas.getContext("2d");
+				
+				canvas.width = 600;
+				canvas.height = 600;
+				canvas.style.border = "1px solid #000";
+				
+				var img = new Image();
+				img.src = '../images/08动画帧.png';
+				img.onload = function() {
+					//frameIndex标识img水平切割的八个部分
+					var frameIndex = 0;
+					setInterval(function() {
+						//清除整个画布的内容,除了clearRect方法之外,还可以——canvas.width = canvas.width;原理就是通过代码重新设置了canvas的宽高之后，canvas里的内容全部被清空
+						ctx.clearRect(0, 0, canvas.width, canvas.height);
+						//使用了drawImage先裁剪然后绘制的功能
+						ctx.drawImage(
+							img,
+							frameIndex * 180,
+							0,
+							180,
+							325,
+							200,
+							200,
+							180,
+							325
+						);
+						frameIndex ++;
+						frameIndex %= 8;
+					},125);
+				}
+			}())
+		</script>
+	</body>
+</html>
