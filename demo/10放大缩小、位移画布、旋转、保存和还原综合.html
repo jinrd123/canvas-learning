@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="container">
+			<canvas id="cavsElem">
+				你的浏览器不支持canvas，请升级浏览器
+			</canvas>
+		</div>
+		<script>
+			(function() {
+				var canvas = document.querySelector('#cavsElem');
+				var ctx = canvas.getContext("2d");
+				
+				canvas.width = 600;
+				canvas.height = 600;
+				canvas.style.border = "1px solid #000";
+				
+				//
+				ctx.fillStyle = 'red';
+				//在正常坐标系下绘制一个红色矩形
+				ctx.fillRect(10, 10, 100, 100);
+						
+				//ctx.save():保存ctx.save();这句代码以上部分的代码形成的上下文ctx，通过ctx.restore();可以返回到保存的上下文状态
+				ctx.save();
+				
+				//坐标系变换
+				
+				//平移画布的坐标系，也就是移动坐标原点到原本200,200的位置
+				ctx.translate(200, 200);
+				//旋转画布的坐标系，以原点为旋转中心，旋转坐标轴
+				ctx.rotate(30 * Math.PI / 180);
+				//将画布的内容放大，延x轴方向放大2倍，延y轴方向放大2倍
+				ctx.scale(2, 2);
+				//设置当前绘制内容的透明度，0是完全透明，1是完全不透明
+				ctx.globalAlpha = 0.3;
+				
+				ctx.moveTo(0, 0);
+				ctx.lineTo(400, 0);
+				ctx.moveTo(0, 0);
+				ctx.lineTo(0, 400);
+				ctx.stroke();
+				ctx.fillRect(10, 10, 40, 40);
+				
+				//返回变化坐标系之前保留的那个ctx状态
+				ctx.restore();
+				
+				ctx.fillRect(400, 400, 100, 100);
+				
+			}())
+		</script>
+	</body>
+</html>
