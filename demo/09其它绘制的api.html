@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="container">
+			<canvas id="cavsElem">
+				你的浏览器不支持canvas，请升级浏览器
+			</canvas>
+		</div>
+		<script>
+			/*
+				以下阴影以及渐变消耗性能很大，一般不用，了解即可
+			*/
+			(function() {
+				var canvas = document.querySelector('#cavsElem');
+				var ctx = canvas.getContext("2d");
+				
+				canvas.width = 600;
+				canvas.height = 600;
+				canvas.style.border = "1px solid #000";
+
+				//填充颜色
+				ctx.fillStyle = "rgba(255,0,0,0.9)";
+				//阴影颜色
+				ctx.shadowColor = "teal";
+				//阴影的模糊级别,大于一的整数，如果太大，也就是非常模糊，会导致阴影消失
+				ctx.shadowBlur = 10;
+				//阴影距离元素的水平距离
+				ctx.shadowOffsetX = 10;
+				//阴影距离元素的竖直距离
+				ctx.shadowOffsetY = 10;
+				ctx.fillRect(100, 100, 100, 100);
+				
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+				
+				ctx.beginPath();
+				//创建一个线性渐变对象，这个对象最终可以给fillStyle使用
+				//ctx.createLinearGradient(x,y,x1,y1):表示在(x,y)到(x1,y1)这条线上进行渐变
+				var grd = ctx.createLinearGradient(100,100,300,300);
+				//添加一个渐变颜色，第一个参数介于0和1之间，表示添加渐变的结点，如果grd.addColorStop(0.5,'blue')就代表在渐变线上的中间位置，渐变成蓝色
+				grd.addColorStop(0,'black');
+				grd.addColorStop(1,'white');
+				//把渐变添加到填充样式
+				ctx.fillStyle = grd;
+				ctx.fillRect(100,100,200,200);
+				
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+				
+				//创建一个圆形渐变，var rlg = ctx.createRadialGradient(x, y, r, x1, y1, r1);只考虑同心圆且一个小圆一个大圆的简单情况，意思就是创建了由小圆圆心向外发散的若干渐变直线
+				var rlg = ctx.createRadialGradient(300, 300, 10, 300, 300, 200);
+				rlg.addColorStop(0, 'white');
+				rlg.addColorStop(0.4, 'green');
+				rlg.addColorStop(1, 'purple');
+				ctx.fillStyle = rlg;
+				ctx.fillRect(0, 0, canvas.width, canvas.height);
+			}())
+		</script>
+	</body>
+</html>
