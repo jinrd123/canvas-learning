@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="container">
+			<canvas id="cavsElem">
+				你的浏览器不支持canvas，请升级浏览器
+			</canvas>
+		</div>
+		<div id="container">
+			<canvas id="cavsElem2">
+				你的浏览器不支持canvas，请升级浏览器
+			</canvas>
+		</div>
+		
+		<img id="imgId"/>
+		
+		<script>
+			(function() {
+				var canvas = document.querySelector('#cavsElem');
+				var ctx = canvas.getContext("2d");
+				
+				canvas.width = 600;
+				canvas.height = 600;
+				canvas.style.border = "1px solid #000";
+				
+				ctx.fillRect(100, 100, 100, 200);
+				
+				var img = document.getElementById('imgId');
+				//将一个canvas的内容转成png格式的图片（base64编码）然后赋值给img的src属性，第二个参数表示输出图片的质量，1代表无损压缩
+				img.src = canvas.toDataURL('image/png',1);
+				
+				//再拿到一个画布
+				var canvas2 = document.getElementById('cavsElem2');
+				var ctx2 = canvas2.getContext('2d');
+				canvas2.width = 600;
+				canvas2.height = 600;
+				canvas2.style.border = '1px solid #000';
+				//将canvas的内容绘制到canvas2上
+				ctx2.drawImage(canvas, 0, 0);
+				//这种操作可以实现canvas优化：我们用js创建一个画布，然后在这个创建的画布上绘制（这个画布对于用户来说是隐藏的），然后用这个画布去渲染html中的画布（用户看的见的画布）——实现了批量绘制
+			}())
+		</script>
+	</body>
+</html>
