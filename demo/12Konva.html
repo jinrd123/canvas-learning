@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="https://unpkg.com/konva@8/konva.min.js"></script>
+	</head>
+	<body>
+		<!-- 放我们的Konva舞台 -->
+		<div id="container">
+			
+		</div>
+		<script>
+			// 第一步:创建舞台
+			var stage = new Konva.Stage({
+				container: 'container',
+				width: window.innerWidth,//整个浏览器的大小
+				height: window.innerHeight,
+			});
+			
+			//第二步:创建一个层
+			var layer = new Konva.Layer();
+			
+			//第三步:把层添加到舞台上
+			stage.add(layer);
+			
+			//第四步:绘制图形
+			//创建一个矩形
+			var rect = new Konva.Rect({
+				x: 100,
+				y: 100,
+				opacity: 0.4,
+				rotation: 40,
+				width: 100,
+				height: 200,
+				scaleX: 1.2,
+				scaleY: 1.2,
+				draggable: true,
+				fill: 'orange'
+			})
+			
+			//第五步:把创建的图形添加到层上
+			layer.add(rect);
+			
+			//第六步:把层渲染到舞台上
+			layer.draw();
+		</script>
+	</body>
+</html>

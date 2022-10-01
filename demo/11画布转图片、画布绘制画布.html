@@ -42,6 +42,7 @@
 				//将canvas的内容绘制到canvas2上
 				ctx2.drawImage(canvas, 0, 0);
 				//这种操作可以实现canvas优化：我们用js创建一个画布，然后在这个创建的画布上绘制（这个画布对于用户来说是隐藏的），然后用这个画布去渲染html中的画布（用户看的见的画布）——实现了批量绘制
+				//var canvasHide = document.createElement('canvas');然后所有绘制都在canvasHide上进行
 			}())
 		</script>
 	</body>
