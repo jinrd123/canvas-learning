@@ -27,6 +27,20 @@
 				
 				ctx.lineWidth = 20;
 				
+				/*
+					基于状态的绘图只针对stroke方法，而fill类型的方法不受状态影响（样式不会提前到状态首部并进行覆盖）:
+						fill时就根据fill上面最近的context.fillStyle进行填充
+						而不会把fill下面的context.fillStyle提前上来
+						fill类型的方法就单纯的顺序执行
+				*/
+				ctx.fillStyle = "red";
+				ctx.fillRect(0, 0, canvas.width, canvas.height);
+				ctx.fillStyle = "yellow"; 
+				/*
+					上面两个fillStyle属于同一个状态，但是第二个yellow并没有覆盖red，绘制出来了红色背景
+					下面如果再执行ctx.fillRect(0, 0, canvas.width, canvas.height);的话就会填充黄色背景
+				*/
+				
 				//第一条线
 				ctx.beginPath();//没有必要，因为开始默认就有一个状态 但推荐写上
 				/*
@@ -52,6 +66,7 @@
 				ctx.moveTo(100, 300);
 				ctx.lineTo(300, 300);
 				ctx.stroke();
+				
 			}())
 		</script>
 	</body>
