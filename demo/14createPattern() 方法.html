@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="container">
+			<canvas id="cavsElem">
+				你的浏览器不支持canvas，请升级浏览器
+			</canvas>
+		</div>
+		<script>
+			/*
+				ctx.createPattern(image/canvas, "repeat|repeat-x|repeat-y|no-repeat"):返回值可以赋值给fillStyle作为填充样式
+				任意ctx调用createPattern，返回一个空对象，也就是说createPattern返回的填充样式对象和调用createPattern的canvas上下文无关，任意一个canvas创建了填充样式之后，其它上下文都可以使用这个填充样式
+				createPattern第一个参数是image或者canvas的dom元素。
+			*/
+			(function() {
+				var canvas = document.querySelector('#cavsElem');
+				var ctx = canvas.getContext("2d");
+				
+				canvas.width = 600;
+				canvas.height = 600;
+				canvas.style.border = "1px solid #000";
+				
+				/*
+					这里通过js创建了一个canvas dom元素，并且在这个canvas上绘制了一些东西，可以作为createPattern方法的第一个参数
+				*/
+				let testCanvas = document.createElement("canvas");
+				testCanvas.width = 10;
+				testCanvas.height = 10;
+				let testContext = testCanvas.getContext("2d");
+				testContext.fillStyle = "red";
+				testContext.fillRect(3, 3, 4, 4);
+				
+				/*
+					这里通过js创建了一个图片dom，可以作为createPattern方法的第一个参数
+				*/
+				var img = new Image();
+				img.src = '../images/07img.jpg';
+				/*
+					这里如果不在img.onload中执行var pattern = testContext.createPattern(img, "repeat");的话，可能createPattern创建填充样式失败
+					img.onload是异步代码，确保执行时图片已经加载完毕
+				*/
+				img.onload = function() {
+					/*
+						这里我用testContext这个上下文创建的填充样式
+						但这个填充样式给ctx使用，效果正常，这也印证了createPattern创建的填充样式和调用上下文无关。
+					*/
+					var pattern = testContext.createPattern(img, "repeat");
+					console.log(pattern);//输出一个空对象（其__proto__决定了这个对象可以作为填充样式）
+					ctx.fillStyle = pattern;
+					ctx.fillRect(0, 0, canvas.width, canvas.height);
+				}
+			}())
+		</script>
+	</body>
+</html>
